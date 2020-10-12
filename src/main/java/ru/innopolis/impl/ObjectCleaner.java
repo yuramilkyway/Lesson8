@@ -8,6 +8,17 @@ import java.util.List;
 import java.util.Set;
 
 public class ObjectCleaner implements Cleaner {
+    /**
+     * Метод принимающий объект и две коллекции строк.
+     * В объекте, посредством reflection поля, перечисленные
+     * в fieldsToClenup устанавливает в значение null.
+     * @param object Объект в которой удаляем .
+     * @param fieldsToCleanup Поля, перечисленные в fieldsToClenup
+     * устанавливаем в значение null.
+     * @param fieldsToOutput Поля, перечисленные в fieldsToOutput
+     * конвертируем в строку (вызвав toString у объектов, или String.valueOf для примитивных типов)
+     * и выводим результат преобразования в консоль
+     */
     @Override
     public void cleanup(Object object, Set<String> fieldsToCleanup, Set<String> fieldsToOutput) {
         validateArguments(object, fieldsToCleanup);
@@ -22,6 +33,12 @@ public class ObjectCleaner implements Cleaner {
         }
     }
 
+    /**
+     * При отсутствии в объекте нужных значений - вызываем
+     * IllegalArgumentException, оставив объект неизменным.
+     * @param obj объект в котором ищем.
+     * @param names Множество значений.
+     */
     private void validateArguments(Object obj, Set<String> names) {
         Class<?> objClass = obj.getClass();
         List<Field> fields = Arrays.asList(objClass.getDeclaredFields());
@@ -40,13 +57,17 @@ public class ObjectCleaner implements Cleaner {
         }
     }
 
+    /**
+     * Заменяем значения в объекте.
+     * @param fieldName Ключ.
+     * @param obj объект в котором обнуляем значения.
+     */
     private void cleanField(String fieldName, Object obj) {
         try {
             Field declaredField = obj.getClass().getDeclaredField(fieldName);
             String typeName = declaredField.getType().getCanonicalName();
             declaredField.setAccessible(true);
             switch (typeName) {
-                //8 примитивных типов, описать все
                 case "byte": {
                     declaredField.setByte(obj, (byte) 0);
                     break;
@@ -89,13 +110,17 @@ public class ObjectCleaner implements Cleaner {
         }
     }
 
+    /**
+     * Выводим выбранные значения объекта.
+     * @param fieldName выбранное значение.
+     * @param obj объект.
+     */
     private void printField(String fieldName, Object obj) {
         try {
             Field declaredField = obj.getClass().getDeclaredField(fieldName);
             String typeName = declaredField.getType().getCanonicalName();
             declaredField.setAccessible(true);
             switch (typeName) {
-                //8 примитивных типов, описать все
                 case "byte": {
                     System.out.println(String.valueOf(declaredField.getByte(obj)));
                     break;
