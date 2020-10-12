@@ -9,28 +9,27 @@ import java.util.Set;
 
 public class Main {
     public static void main(String[] args) {
+
         Map<String, Integer> map = new HashMap<>();
-        map.put("1", 11);
-        map.put("2", 22);
-        map.put("3", 33);
-        map.put("4", 44);
-        map.put("5", 55);
-        map.put("6", 66);
+        map.put("firstElem", 11);
+        map.put("secondElem", 22);
+        map.put("thirdElem", 33);
+        map.put("fourthElem", 44);
         System.out.println(map.toString());
 
         Set<String> set1 = new HashSet<>();
-        set1.add("2");
-        set1.add("6");
-        set1.add("4");
+        set1.add("firstElem");
+        set1.add("thirdElem");
 
         Set<String> set2 = new HashSet<>();
-        set2.add("1");
-        set2.add("2");
-        set2.add("3");
+        set2.add("firstElem");
+        set2.add("secondElem");
+        set2.add("thirdElem");
+        set2.add("fourthElem");
 
         CleanerManager cleanerManager = new CleanerManager();
         cleanerManager.cleanup(map, set1, set2);
-        System.out.println(map.toString());
+        System.out.println(map.toString() + "\n");
 
         Test obj = new Test();
         System.out.println(obj);
@@ -49,7 +48,7 @@ public class Main {
 
     }
 
-    static class  Test {
+    static class Test {
         int a = 5;
         double b =6.0;
         String c = "string c";
